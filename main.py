@@ -14,6 +14,11 @@ class GameState():
         self.groundscroll = 0
         self.backgroundscroll = 0
 
+bird = Actor('bird.png')
+bird.x = WIDTH/2 - bird.width/2
+bird.y = HEIGHT/2 - bird.height/2
+
+
 gamestate = GameState()
 
 ground = pygame.image.load('images/ground.png')
@@ -31,6 +36,10 @@ bg2 = bg
 
 
 def move():
+    if not keyboard.space:
+        bird.y += 5
+    elif keyboard.space:
+        bird.y -= 15
     if keyboard.right:
         pass
     if keyboard.left:
@@ -40,7 +49,6 @@ def update():
     gamestate.backgroundscroll = (gamestate.backgroundscroll + BACKGROUND_SCROLL_SPEED) % BACKGROUND_LOOPING_POINT
     print(gamestate.backgroundscroll)
     gamestate.groundscroll = (gamestate.groundscroll + GROUND_SCROLL_SPEED) % WIDTH
-
     move()
 
 def draw():
@@ -49,5 +57,6 @@ def draw():
     screen.blit(bg2, (WIDTH - gamestate.backgroundscroll, 0))
     screen.blit(ground, (0 - gamestate.groundscroll, HEIGHT-ground.get_height()))
     screen.blit(ground, (WIDTH - gamestate.groundscroll, HEIGHT-ground.get_height()))
+    bird.draw()
 
 pgz.go()
