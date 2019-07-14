@@ -34,8 +34,19 @@ class Pipe(Actor):
     def __init__(self, *args):
         Actor.__init__(self, *args)
         self.x = gamestate.WIDTH + 64
-        self.y = random.randrange(3*HEIGHT/4, HEIGHT-10)
+        self.y = random.randint(2*HEIGHT/3, 7*HEIGHT/8)
         self.spacing = 100
+
+pipe = pygame.image.load('images/pipe.png')
+invertedpipe = pygame.transform.flip(pipe, False, True)
+
+class InvertedPipe(Actor):
+    def __init__(self, *args, **kwargs):
+        Actor.__init__(self, *args, **kwargs)
+        self.x = gamestate.WIDTH + 64
+        self.y = random.randint(1*HEIGHT/8, 1*HEIGHT/3)
+        self.spacing = 100
+
         #self.pipes = []
 
     # def spawn(self):
@@ -53,14 +64,21 @@ def spawn_pipes(pipes):
     #print(f"WIDTH - pipe.width - pipe.spacing: {WIDTH - pipe.width - pipe.spacing}")
     if len(pipes) == 0:
         pipes.append(Pipe('pipe.png'))
+        pipes.append(InvertedPipe('invertedpipe.png', anchor=('center', 'bottom')))
 
     if  pipes[-1].x < WIDTH - pipes[-1].width - pipes[-1].spacing:
         print("hello")
         # 
         pipes.append(Pipe('pipe.png'))
+        pipes.append(InvertedPipe('invertedpipe.png', anchor=('center', 'bottom')))
+
+
 
     if pipes[0].x < 0 - pipes[0].width - pipes[0].spacing:
         del pipes[0]
+        if pipes[0].x < 0 - pipes[0].width - pipes[0].spacing:
+            del pipes[0]
+
     #     print(f"len pipes: {len(pipes)}")
     #     print(f"first pipe x: {pipes[0].x}")
     #     print(f"last pipe x: {pipes[-1].x}")
