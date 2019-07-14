@@ -41,17 +41,26 @@ class Pipe(Actor):
     # def spawn(self):
     #     if self.x < WIDTH - self.width - self.spacing:
     #         self.pipes.append(self)
-pipe = Pipe('pipe.png')
-print(f"pipe.x: {pipe.x}")
-pipes =[pipe]
+# pipe = Pipe('pipe.png')
+# print(f"pipe.x: {pipe.x}")
+# pipes =[pipe]
 
-def spawn_pipes(pipe, pipes):
-    number_of_pipes = int(WIDTH / (pipe.width + pipe.spacing))
+pipes = []
+
+def spawn_pipes(pipes):
+    # number_of_pipes = int(WIDTH / (pipe.width + pipe.spacing))
     #print(f"framecount: {gamestate.framecounter}, pipes: {pipes}")
-    print(f"WIDTH - pipe.width - pipe.spacing: {WIDTH - pipe.width - pipe.spacing}")
-    if  pipes[-1].x < WIDTH - pipe.width - pipe.spacing:
+    #print(f"WIDTH - pipe.width - pipe.spacing: {WIDTH - pipe.width - pipe.spacing}")
+    if len(pipes) == 0:
+        pipes.append(Pipe('pipe.png'))
+
+    if  pipes[-1].x < WIDTH - pipes[-1].width - pipes[-1].spacing:
         print("hello")
-        pipes.append(Pipe('pipe.png', (WIDTH+64, HEIGHT/2)))
+        # 
+        pipes.append(Pipe('pipe.png'))
+
+    if pipes[0].x < 0 - pipes[0].width - pipes[0].spacing:
+        del pipes[0]
     #     print(f"len pipes: {len(pipes)}")
     #     print(f"first pipe x: {pipes[0].x}")
     #     print(f"last pipe x: {pipes[-1].x}")
@@ -129,11 +138,11 @@ def update():
     gamestate.backgroundscroll = (gamestate.backgroundscroll + BACKGROUND_SCROLL_SPEED) % BACKGROUND_LOOPING_POINT
     #print(gamestate.backgroundscroll)
     gamestate.groundscroll = (gamestate.groundscroll + GROUND_SCROLL_SPEED) % WIDTH
-    pipe.x -= GROUND_SCROLL_SPEED
+    # pipe.x -= GROUND_SCROLL_SPEED
     #pipe.spawn()
     bird_motion()
     pipe_motion(pipes)
-    spawn_pipes(pipe, pipes)
+    spawn_pipes(pipes)
 
 def draw():
     screen.clear()
