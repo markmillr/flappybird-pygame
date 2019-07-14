@@ -48,15 +48,17 @@ pipes =[pipe]
 def spawn_pipes(pipe, pipes):
     number_of_pipes = int(WIDTH / (pipe.width + pipe.spacing))
     #print(f"framecount: {gamestate.framecounter}, pipes: {pipes}")
-    # if  pipes[-1].x == WIDTH - pipe.width - pipe.spacing:
-    #     pipes.append(pipe)
+    print(f"WIDTH - pipe.width - pipe.spacing: {WIDTH - pipe.width - pipe.spacing}")
+    if  pipes[-1].x < WIDTH - pipe.width - pipe.spacing:
+        print("hello")
+        pipes.append(Pipe('pipe.png', (WIDTH+64, HEIGHT/2)))
     #     print(f"len pipes: {len(pipes)}")
     #     print(f"first pipe x: {pipes[0].x}")
     #     print(f"last pipe x: {pipes[-1].x}")
 
-    if pipes[0].x < 0 - pipe.width - pipe.spacing:
-        pipes.append(Pipe('pipe.png', (WIDTH+64, HEIGHT/2)))
-        pipes.pop(0)
+    # if pipes[0].x < 0 - pipe.width - pipe.spacing:
+    #     pipes.append(Pipe('pipe.png', (WIDTH+64, HEIGHT/2)))
+    #     pipes.pop(0)
 
     #print(f"framecount: {gamestate.framecounter}, pipes: {pipes}")
     
