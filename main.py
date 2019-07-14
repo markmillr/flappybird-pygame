@@ -5,18 +5,29 @@ import pygame
 WIDTH = 1280
 HEIGHT = 720
 
+music.play('all_decked_out.mp3')
+
 BACKGROUND_SCROLL_SPEED = 5
 GROUND_SCROLL_SPEED = 10
 BACKGROUND_LOOPING_POINT = WIDTH
+PSEUDOGRAVITY = 15
+
 
 class GameState():
     def __init__(self):
         self.groundscroll = 0
         self.backgroundscroll = 0
+        self.dt=1/30
 
-bird = Actor('bird.png')
+class Bird(Actor):
+    def __init__(self, *args):
+        Actor.__init__(self, *args)
+        self.dy = 0
+
+bird = Bird('bird.png')
 bird.x = WIDTH/2 - bird.width/2
 bird.y = HEIGHT/2 - bird.height/2
+bird.dy = PSEUDOGRAVITY
 
 
 gamestate = GameState()
@@ -35,11 +46,12 @@ bg = pygame.transform.scale(bg, (2*WIDTH, HEIGHT - ground.get_height()))
 bg2 = bg
 
 
-def move():
+def move(dt):
+    
     if not keyboard.space:
-        bird.y += 5
+        bird.y += PSEUDOGRAVITY
     elif keyboard.space:
-        bird.y -= 15
+        bird.y -= PSEUDOGRAVITY
     if keyboard.right:
         pass
     if keyboard.left:
@@ -49,7 +61,7 @@ def update():
     gamestate.backgroundscroll = (gamestate.backgroundscroll + BACKGROUND_SCROLL_SPEED) % BACKGROUND_LOOPING_POINT
     print(gamestate.backgroundscroll)
     gamestate.groundscroll = (gamestate.groundscroll + GROUND_SCROLL_SPEED) % WIDTH
-    move()
+    move(gamestate.dt)
 
 def draw():
     screen.clear()
