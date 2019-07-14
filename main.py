@@ -1,6 +1,7 @@
 import pgzrun as pgz
 import pygame
 import random
+import time
 
 
 WIDTH = 1280
@@ -19,6 +20,10 @@ class GameState():
     def __init__(self):
         self.groundscroll = 0
         self.backgroundscroll = 0
+        self.framecounter = 0
+        self.WIDTH = WIDTH
+
+gamestate = GameState()
 
 class Bird(Actor):
     def __init__(self, *args):
@@ -28,17 +33,31 @@ class Bird(Actor):
 class Pipe(Actor):
     def __init__(self, *args):
         Actor.__init__(self, *args)
-        self.x = WIDTH
+        self.x = gamestate.WIDTH
         self.y = random.randrange(3*HEIGHT/4, HEIGHT-10)
+        self.spacing = 100
+        #self.pipes = []
 
+    # def spawn(self):
+    #     if self.x < WIDTH - self.width - self.spacing:
+    #         self.pipes.append(self)
 pipe = Pipe('pipe.png')
+
+def spawn_pipes():
+    pipe = Pipe('pipe.png')
+    number_of_pipes = int(WIDTH / (pipe.width + pipe.spacing))
+    print(f"number of pipes, {number_of_pipes}")
+
+
+
+
 bird = Bird('bird.png')
 bird.x = WIDTH/2 - bird.width/2
 bird.y = HEIGHT/2 - bird.height/2
 bird.dy = PSEUDOGRAVITY
 
 
-gamestate = GameState()
+
 
 ground = pygame.image.load('images/ground.png')
 ground = pygame.transform.scale(ground, (WIDTH, 7*ground.get_height()))
@@ -51,9 +70,10 @@ bg = pygame.image.load('images/background.png')
 bg_height = bg.get_height()
 bg_width = bg.get_width()
 bg_size = bg.get_size()
-print(type(bg_size))
+
 bg = pygame.transform.scale(bg, (2*WIDTH, HEIGHT - ground.get_height()))
 bg2 = bg
+
 
 
 def bird_motion():
@@ -66,13 +86,16 @@ def bird_motion():
         pass
     if keyboard.left:
         pass
-
+timearray = []
 def update():
+    
     gamestate.backgroundscroll = (gamestate.backgroundscroll + BACKGROUND_SCROLL_SPEED) % BACKGROUND_LOOPING_POINT
-    print(gamestate.backgroundscroll)
+    #print(gamestate.backgroundscroll)
     gamestate.groundscroll = (gamestate.groundscroll + GROUND_SCROLL_SPEED) % WIDTH
     pipe.x -= GROUND_SCROLL_SPEED
+    #pipe.spawn()
     bird_motion()
+    spawn_pipes()
 
 def draw():
     screen.clear()
