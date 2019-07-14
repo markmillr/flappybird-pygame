@@ -137,8 +137,6 @@ bg_size = bg.get_size()
 bg = pygame.transform.scale(bg, (2*WIDTH, HEIGHT - ground.get_height()))
 bg2 = bg
 
-
-
 def bird_motion():
     
     if not keyboard.space:
@@ -149,6 +147,12 @@ def bird_motion():
         pass
     if keyboard.left:
         pass
+
+def collision_detection():
+    for pipe in pipes:
+        if pipe.colliderect(bird):
+            sounds.spring.play()
+
 timearray = []
 def update():
     gamestate.framecounter += 1
@@ -159,6 +163,7 @@ def update():
     # pipe.x -= GROUND_SCROLL_SPEED
     #pipe.spawn()
     bird_motion()
+    collision_detection()
     pipe_motion(pipes)
     spawn_pipes(pipes)
 
